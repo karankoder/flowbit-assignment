@@ -51,17 +51,19 @@ Follow these instructions to set up and run the project locally.
    ```
 3. **Set up Environment Variables:**
    - Create a `.env` file in the `apps/api` directory (`apps/api/.env`) and add:
-     `env
-MONGODB_URI="your_mongodb_atlas_connection_string"
-LOCAL_MONGO_URI=mongodb://localhost:27017/
-NODE_ENV=development
-LOCAL_FRONTEND_URL=http://localhost:3000
-FRONTEND_URL=
-GEMINI_API_KEY="your_gemini_api_key"
-GROQ_API_KEY="your_groq_endpoint"
-BLOB_READ_WRITE_TOKEN="your_vercel_blob_token"
-PORT=4000
-`
+     ```env
+     MONGODB_URI="your_mongodb_atlas_connection_string"
+     LOCAL_MONGO_URI=mongodb://localhost:27017/
+     NODE_ENV=development
+     LOCAL_FRONTEND_URL=http://localhost:3000
+     FRONTEND_URL=
+     GEMINI_API_KEY="your_gemini_api_key"
+     GROQ_API_KEY="your_groq_endpoint"
+     BLOB_READ_WRITE_TOKEN="your_vercel_blob_token"
+     PORT=4000
+     ```
+
+````
    - Create a `.env.local` file in the `apps/web` directory (`apps/web/.env.local`) and add:
      ```env
      NEXT_PUBLIC_API_URL="http://localhost:4000/api/v1"
@@ -90,7 +92,7 @@ Uploads a PDF file and stores it.
     "fileName": "sample-invoice.pdf",
     "fileUrl": "https://<your-blob-storage>/sample-invoice.pdf"
   }
-  ```
+````
 
 ### `POST /extract`
 
