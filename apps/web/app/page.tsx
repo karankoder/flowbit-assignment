@@ -79,7 +79,7 @@ export default function Home() {
         </div>
 
         <div className='w-1/2 overflow-auto'>
-          <InvoiceForm initialData={invoiceData} fileId={blob?.url ?? null} />
+          <InvoiceForm initialData={invoiceData} />
         </div>
       </div>
     </main>

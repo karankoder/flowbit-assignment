@@ -19,10 +19,9 @@ import { InvoiceData } from '../lib/invoiceData';
 
 interface InvoiceFormProps {
   initialData: InvoiceData | null;
-  fileId: string | null;
 }
 
-export default function InvoiceForm({ initialData, fileId }: InvoiceFormProps) {
+export default function InvoiceForm({ initialData }: InvoiceFormProps) {
   const [formData, setFormData] = useState(initialData);
 
   useEffect(() => {

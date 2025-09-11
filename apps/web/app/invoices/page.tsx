@@ -133,7 +133,7 @@ export default function InvoicesPage() {
                     <Button
                       variant='outline'
                       size='sm'
-                      onClick={() => router.push(`/invoice/${invoice._id}`)}
+                      onClick={() => router.push(`/invoices/${invoice._id}`)}
                     >
                       View / Edit
                     </Button>
