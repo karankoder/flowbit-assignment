@@ -62,8 +62,6 @@ Follow these instructions to set up and run the project locally.
      BLOB_READ_WRITE_TOKEN="your_vercel_blob_token"
      PORT=4000
      ```
-
-````
    - Create a `.env.local` file in the `apps/web` directory (`apps/web/.env.local`) and add:
      ```env
      NEXT_PUBLIC_API_URL="http://localhost:4000/api/v1"
@@ -92,6 +90,8 @@ Uploads a PDF file and stores it.
     "fileName": "sample-invoice.pdf",
     "fileUrl": "https://<your-blob-storage>/sample-invoice.pdf"
   }
+  ```
+
 ````
 
 ### `POST /extract`
@@ -175,3 +175,4 @@ Deletes an invoice by its ID.
     "message": "Invoice deleted successfully"
   }
   ```
+````
