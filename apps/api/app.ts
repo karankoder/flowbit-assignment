@@ -3,6 +3,7 @@ import { config } from 'dotenv';
 import cors from 'cors';
 import invoiceRouter from './routes/invoiceRouter';
 import fileRouter from './routes/fileRouter';
+import { errorMiddleware } from './middlewares/error';
 
 export const app = express();
 
@@ -29,3 +30,5 @@ app.get('/', (req, res) => {
 app.get('/failure', (req, res) => {
   res.send('Failed to Login');
 });
+
+app.use(errorMiddleware);

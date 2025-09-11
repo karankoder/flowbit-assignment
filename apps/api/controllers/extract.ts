@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Invoice } from '../models/invoice';
 import axios from 'axios';
 import { GoogleGenAI } from '@google/genai';
@@ -20,7 +20,11 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY! });
 const cleanJsonString = (raw: string): string =>
   raw.replace(/```json\n?|```/g, '').trim();
 
-export const extractDataFromPdf = async (req: Request, res: Response) => {
+export const extractDataFromPdf = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { fileUrl, fileName, model: aiModel } = req.body;
 
   if (!fileUrl || !aiModel) {
@@ -99,9 +103,6 @@ export const extractDataFromPdf = async (req: Request, res: Response) => {
 
     res.status(200).json(invoice);
   } catch (error: any) {
-    console.error('Extraction failed:', error);
-    res
-      .status(500)
-      .json({ message: 'Failed to extract data.', error: error.message });
+    next(error);
   }
 };
