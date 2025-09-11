@@ -7,7 +7,7 @@ const router = Router();
 router
   .get('/', invoiceController.getAllInvoices)
   .get('/:id', invoiceController.getInvoiceById)
-  .post('/:id', invoiceController.updateInvoice)
+  .put('/:id', invoiceController.updateInvoice)
   .delete('/:id', invoiceController.deleteInvoice);
 
 export default router;

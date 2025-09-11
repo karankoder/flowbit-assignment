@@ -51,27 +51,28 @@ Follow these instructions to set up and run the project locally.
    ```
 3. **Set up Environment Variables:**
    - Create a `.env` file in the `apps/api` directory (`apps/api/.env`) and add:
-     ```env
-     MONGODB_URI="your_mongodb_atlas_connection_string"
-     GEMINI_API_KEY="your_gemini_api_key"
-     ```
+     `env
+MONGODB_URI="your_mongodb_atlas_connection_string"
+LOCAL_MONGO_URI=mongodb://localhost:27017/
+NODE_ENV=development
+LOCAL_FRONTEND_URL=http://localhost:3000
+FRONTEND_URL=
+GEMINI_API_KEY="your_gemini_api_key"
+GROQ_API_KEY="your_groq_endpoint"
+BLOB_READ_WRITE_TOKEN="your_vercel_blob_token"
+PORT=4000
+`
    - Create a `.env.local` file in the `apps/web` directory (`apps/web/.env.local`) and add:
      ```env
-     NEXT_PUBLIC_API_URL="http://localhost:8000/api/invoices"
+     NEXT_PUBLIC_API_URL="http://localhost:4000/api/v1"
      ```
-     _(Note: The default port for the API is 8000)_
+     _(Note: The default port for the API is 4000)_
 4. **Run the applications:**
-   - Open two separate terminal windows.
-   - In the first terminal, run the backend API:
+   - From the root directory, start both the backend and frontend together:
      ```bash
-     pnpm dev --filter api
+     pnpm run dev
      ```
-     The API will be running at http://localhost:8000.
-   - In the second terminal, run the frontend web app:
-     ```bash
-     pnpm dev --filter web
-     ```
-     The web app will be running at http://localhost:3000.
+   - The API will be running at http://localhost:4000 and the web app at http://localhost:3000.
 
 ## API Documentation
 
@@ -98,8 +99,8 @@ Extracts data from an already uploaded PDF using an AI model.
 - **Request Body:**
   ```json
   {
-    "fileId": "65f1c3b1d3e2a1b1c8f8d3a1",
-    "model": "gemini"
+    "fileUrl": "https://<your-blob-storage>/sample-invoice.pdf",
+    "model": "groq"
   }
   ```
 - **Success Response (200):**
