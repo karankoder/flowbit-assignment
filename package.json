@@ -16,5 +16,13 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
+  },
+  "pnpm": {
+    "overrides": {
+      "pdfjs-dist": "4.4.168"
+    }
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0"
   }
 }

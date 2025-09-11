@@ -1,6 +1,5 @@
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
 import { Request, Response } from 'express';
-import { File } from '../models/file';
 
 export const uploadFile = async (req: Request, res: Response) => {
   const body = req.body as HandleUploadBody;
@@ -12,16 +11,18 @@ export const uploadFile = async (req: Request, res: Response) => {
       onBeforeGenerateToken: async (pathname: string) => {
         return {
           allowedContentTypes: ['application/pdf'],
+          addRandomSuffix: true,
           tokenPayload: JSON.stringify({
             pathname,
           }),
         };
       },
       onUploadCompleted: async ({ blob, tokenPayload }) => {
-        await File.create({
-          fileUrl: blob.url,
-          fileName: blob.pathname,
-        });
+        try {
+          console.log('File saved:');
+        } catch (err) {
+          console.error('Error saving file to DB:', err);
+        }
       },
     });
 

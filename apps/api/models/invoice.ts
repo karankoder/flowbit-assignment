@@ -12,11 +12,9 @@ const LineItemSchema = new Schema(
 
 const InvoiceSchema = new Schema(
   {
-    fileInfo: {
-      type: Schema.Types.ObjectId,
-      ref: 'File',
-      required: true,
-    },
+    
+    fileUrl: { type: String, required: true, unique: true },
+    fileName: { type: String, required: true },
     vendor: {
       name: { type: String, required: true },
       address: String,
@@ -40,7 +38,7 @@ const InvoiceSchema = new Schema(
 );
 
 export interface IInvoice extends Document {
-  fileId: string;
+  fileUrl: string;
   fileName: string;
   vendor: {
     name: string;

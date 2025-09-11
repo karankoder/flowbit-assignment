@@ -2,13 +2,11 @@
 
 import { useState, useRef } from 'react';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { type PutBlobResult } from '@vercel/blob';
 import { upload } from '@vercel/blob/client';
 
-// Define the props interface to pass the result to the parent
 interface FileUploadProps {
   onUploadComplete: (blob: PutBlobResult) => void;
 }
@@ -31,21 +29,18 @@ export default function FileUpload({ onUploadComplete }: FileUploadProps) {
 
     try {
       const blob = await upload(file.name, file, {
-        access: 'public', // Or private
-        handleUploadUrl: 'http://localhost:4000/api/v1/files/upload',
+        access: 'public',
+        handleUploadUrl: `${process.env.NEXT_PUBLIC_API_URL}/files/upload`,
       });
 
-      //   if (!response.ok) {
-      //     throw new Error('Failed to upload file.');
-      //   }
+      if (!blob) {
+        throw new Error('Failed to upload file.');
+      }
 
-      //   const newBlob = (await response.json()) as PutBlobResult;
-      console.log(blob.url);
       toast.success('File uploaded successfully!');
-      //   onUploadComplete(newBlob);
+      onUploadComplete(blob);
     } catch (error) {
       toast.error('Upload failed. Please try again.');
-      console.error(error);
     } finally {
       setIsUploading(false);
     }
