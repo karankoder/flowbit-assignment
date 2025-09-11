@@ -1,4 +1,3 @@
-// apps/web/app/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -23,14 +22,15 @@ export default function Home() {
     try {
       const fileUrl = blob.url;
       const fileName = blob.pathname || 'uploaded.pdf';
-      const model = 'gemini';
+      const model = 'groq';
       const response = await apiClient.post('files/extract', {
         fileUrl,
         fileName,
         model,
       });
 
-      console.log(response.data);
+      console.log('this is called befaltu');
+
       setInvoiceData(response.data);
     } catch (error: any) {
       const backendMessage =

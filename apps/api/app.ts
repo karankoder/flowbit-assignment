@@ -10,7 +10,6 @@ config({
   path: './data/config.env',
 });
 
-app.use(express.json());
 app.use(
   cors({
     origin: [process.env.LOCAL_FRONTEND_URL!, process.env.FRONTEND_URL!],
@@ -18,6 +17,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(express.json());
 
 app.use('/api/v1/invoices', invoiceRouter);
 app.use('/api/v1/files', fileRouter);

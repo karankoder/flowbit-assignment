@@ -12,15 +12,18 @@
   "dependencies": {
     "@google/genai": "^1.19.0",
     "@types/express": "^5.0.3",
+    "@types/pdf-parse": "^1.1.5",
     "@vercel/blob": "^1.1.1",
     "axios": "^1.11.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "groq-sdk": "^0.32.0",
     "mime": "^4.0.7",
     "mongoose": "^8.18.1",
     "multer": "^2.0.2",
     "nodemon": "^3.1.10",
+    "pdf-parse": "^1.1.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },

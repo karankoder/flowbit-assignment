@@ -95,13 +95,13 @@ export default function InvoiceForm({ initialData, fileId }: InvoiceFormProps) {
 
   const handleSave = async (invoiceId: string) => {
     try {
-      console.log(invoiceId);
-      const response = await apiClient.put(`invoices/${invoiceId}`, {
+      const response = await apiClient.post(`invoices/${invoiceId}`, {
         formData,
       });
 
       toast.success('Invoice saved successfully!');
       setFormData(response.data);
+      console.log('apiresponse', response);
     } catch (err: any) {
       toast.error(err?.response?.data?.message || 'Failed to save invoice.');
     }

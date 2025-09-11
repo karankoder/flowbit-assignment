@@ -55,14 +55,17 @@ export const getInvoiceById = async (req: Request, res: Response) => {
 
 export const updateInvoice = async (req: Request, res: Response) => {
   try {
+    console.log('Update request body:', req.body);
     const updatedInvoice = await Invoice.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      { $set: req.body },
       { new: true, runValidators: true }
     );
     if (!updatedInvoice) {
       return res.status(404).json({ message: 'Invoice not found' });
     }
+
+    console.log('Invoice updated:', updatedInvoice);
     res.status(200).json(updatedInvoice);
   } catch (error: any) {
     res

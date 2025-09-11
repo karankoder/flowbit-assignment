@@ -3,34 +3,19 @@ import { Invoice } from '../models/invoice';
 import axios from 'axios';
 import { GoogleGenAI } from '@google/genai';
 import { config } from 'dotenv';
+import Groq from 'groq-sdk';
+import pdf from 'pdf-parse';
+import {
+  getGeminiExtractionPrompt,
+  getGroqExtractionPrompt,
+} from '../utils/prompts';
 
 config({
   path: './data/config.env',
 });
 
 const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
-
-const getExtractionPrompt = (): string => `
-  You are an expert data extraction AI.
-  Based on the provided PDF invoice file, extract the following information and return it as a clean JSON object.
-  Do not include any explanatory text, markdown formatting, or anything else besides the JSON object.
-
-  The required JSON schema is:
-  {
-    "vendor": { "name": "string", "address": "string", "taxId": "string" },
-    "invoice": {
-      "number": "string",
-      "date": "string",
-      "currency": "string",
-      "subtotal": "number",
-      "taxPercent": "number",
-      "total": "number",
-      "poNumber": "string",
-      "poDate": "string",
-      "lineItems": [{ "description": "string", "unitPrice": "number", "quantity": "number", "total": "number" }]
-    }
-  }
-`;
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY! });
 
 const cleanJsonString = (raw: string): string =>
   raw.replace(/```json\n?|```/g, '').trim();
@@ -49,6 +34,7 @@ export const extractDataFromPdf = async (req: Request, res: Response) => {
     const pdfBuffer = Buffer.from(pdfResponse.data);
 
     let extractedData: any;
+    let aiResponseText: string | null = null;
 
     if (aiModel === 'gemini') {
       const test = await genAI.models.generateContent({
@@ -63,7 +49,7 @@ export const extractDataFromPdf = async (req: Request, res: Response) => {
           {
             role: 'user',
             parts: [
-              { text: getExtractionPrompt() },
+              { text: getGeminiExtractionPrompt() },
               {
                 inlineData: {
                   mimeType: 'application/pdf',
@@ -83,13 +69,30 @@ export const extractDataFromPdf = async (req: Request, res: Response) => {
 
       const cleanedJson = cleanJsonString(aiResponseText);
       extractedData = JSON.parse(cleanedJson);
-    } else {
-      return res
-        .status(400)
-        .json({ message: "Only 'gemini' model is supported right now." });
-    }
+    } else if (aiModel == 'groq') {
+      const pdfData = await pdf(pdfBuffer);
 
-    console.log(extractedData);
+      const pdfText = pdfData.text;
+
+      const prompt = getGroqExtractionPrompt(pdfText);
+
+      const chatCompletion = await groq.chat.completions.create({
+        messages: [{ role: 'user', content: prompt }],
+        model: 'llama-3.1-8b-instant',
+      });
+
+      aiResponseText = chatCompletion.choices[0]?.message?.content || null;
+      if (!aiResponseText) {
+        return res
+          .status(500)
+          .json({ message: 'AI model failed to return a response.' });
+      }
+
+      const cleanedJson = cleanJsonString(aiResponseText);
+      extractedData = JSON.parse(cleanedJson);
+    } else {
+      return res.status(400).json({ message: 'Please use gemini or groq' });
+    }
 
     const invoice = new Invoice({ fileUrl, fileName, ...extractedData });
     await invoice.save();
