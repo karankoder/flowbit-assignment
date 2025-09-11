@@ -15,7 +15,7 @@ The project is structured as a monorepo using pnpm workspaces, with a Next.js fr
 - **Frontend (apps/web):** Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui
 - **Backend (apps/api):** Node.js, Express, TypeScript
 - **Database:** MongoDB Atlas
-- **AI:** Google Gemini API (gemini-1.5-flash)
+- **AI:** Google Gemini API (gemini-1.5-flash) and groq API (llama-3.1-8b-instant)
 - **PDF Viewer:** react-pdf (utilizing pdf.js)
 - **Deployment:** Vercel
 
