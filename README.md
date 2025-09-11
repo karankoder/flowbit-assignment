@@ -92,8 +92,6 @@ Uploads a PDF file and stores it.
   }
   ```
 
-````
-
 ### `POST /extract`
 
 Extracts data from an already uploaded PDF using an AI model.
@@ -175,4 +173,3 @@ Deletes an invoice by its ID.
     "message": "Invoice deleted successfully"
   }
   ```
-````
