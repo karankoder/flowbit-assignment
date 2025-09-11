@@ -21,12 +21,14 @@ interface PdfViewerProps {
   fileUrl: string;
   onExtract: () => void;
   isExtracting: boolean;
+  onUploadNew: () => void;
 }
 
 export default function PdfViewer({
   fileUrl,
   onExtract,
   isExtracting,
+  onUploadNew,
 }: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
@@ -88,6 +90,9 @@ export default function PdfViewer({
         <Button onClick={onExtract} disabled={isExtracting}>
           <SparklesIcon className='mr-2 h-4 w-4' />
           {isExtracting ? 'Extracting...' : 'Extract with AI'}
+        </Button>
+        <Button onClick={onUploadNew} variant='outline'>
+          Upload New PDF
         </Button>
       </div>
 

@@ -79,10 +79,14 @@ export default function InvoicesPage() {
   };
 
   return (
-    <div className='container mx-auto py-8'>
-      <div className='flex justify-between items-center mb-6'>
-        <h1 className='text-3xl font-bold'>Invoices</h1>
-        <Button onClick={() => router.push('/')}>Upload New Invoice</Button>
+    <div className='container mx-auto'>
+      <div className='flex justify-between items-center mb-6 bg-white p-6 rounded-lg shadow-sm border border-gray-200'>
+        <h1 className='text-2xl font-bold text-gray-800 tracking-tight'>
+          Invoices
+        </h1>
+        <Button onClick={() => router.push('/')} className='ml-4'>
+          Upload New Invoice
+        </Button>
       </div>
       <div className='mb-4'>
         <Input

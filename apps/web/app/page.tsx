@@ -45,8 +45,10 @@ export default function Home() {
 
   return (
     <main className='flex h-screen max-h-screen flex-col'>
-      <header className='flex items-center justify-between p-4 border-b'>
-        <h1 className='text-xl font-semibold'>Invoice Extractor</h1>
+      <header className='flex justify-between items-center bg-white p-6 rounded-lg shadow-sm border border-gray-200'>
+        <h1 className='text-2xl font-bold text-gray-800 tracking-tight'>
+          Invoice Extractor
+        </h1>
         <Link href='/invoices'>
           <Button variant='outline'>View All Invoices</Button>
         </Link>
@@ -54,13 +56,17 @@ export default function Home() {
 
       <div className='flex flex-1 overflow-hidden'>
         <div className='w-1/2 border-r flex flex-col'>
-          <FileUpload onUploadComplete={setBlob} />
+          {!blob && <FileUpload onUploadComplete={setBlob} />}
           <div className='flex-1 overflow-auto'>
             {blob ? (
               <PdfViewer
                 fileUrl={blob.url}
                 onExtract={handleExtract}
                 isExtracting={isExtracting}
+                onUploadNew={() => {
+                  setBlob(null);
+                  setInvoiceData(null);
+                }}
               />
             ) : (
               <div className='flex items-center justify-center h-full'>
