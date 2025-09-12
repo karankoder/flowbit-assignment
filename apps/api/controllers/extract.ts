@@ -9,6 +9,7 @@ import {
   getGeminiExtractionPrompt,
   getGroqExtractionPrompt,
 } from '../utils/prompts';
+import ErrorHandler from '../middlewares/error';
 
 config({
   path: './data/config.env',
@@ -87,15 +88,11 @@ export const extractDataFromPdf = async (
 
       aiResponseText = chatCompletion.choices[0]?.message?.content || null;
       if (!aiResponseText) {
-        return res
-          .status(500)
-          .json({ message: 'AI model failed to return a response.' });
+        return next(new ErrorHandler('AI response not found', 404));
       }
 
       const cleanedJson = cleanJsonString(aiResponseText);
       extractedData = JSON.parse(cleanedJson);
-    } else {
-      return res.status(400).json({ message: 'Please use gemini or groq' });
     }
 
     const invoice = new Invoice({ fileUrl, fileName, ...extractedData });

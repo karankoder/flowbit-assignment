@@ -64,15 +64,18 @@ export const updateInvoice = async (
   next: NextFunction
 ) => {
   try {
-    console.log('Update request body:', req.body);
-    const updatedInvoice = await Invoice.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true, runValidators: true }
-    );
-    if (!updatedInvoice) {
+    const existingInvoice = await Invoice.findById(req.params.id);
+
+    if (!existingInvoice) {
       return next(new ErrorHandler('Invoice not found', 404));
     }
+
+    const updatedInvoice = await Invoice.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body.formData },
+      { new: true, runValidators: true }
+    );
+
     res.status(200).json(updatedInvoice);
   } catch (error: any) {
     next(error);

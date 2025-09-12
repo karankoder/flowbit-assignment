@@ -94,7 +94,7 @@ export default function InvoiceForm({ initialData }: InvoiceFormProps) {
 
   const handleSave = async (invoiceId: string) => {
     try {
-      const response = await apiClient.post(`invoices/${invoiceId}`, {
+      const response = await apiClient.put(`invoices/${invoiceId}`, {
         formData,
       });
 
