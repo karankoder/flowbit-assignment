@@ -96,16 +96,25 @@ export default function PdfViewer({
         </Button>
       </div>
 
-      <div className='flex-1 overflow-auto flex justify-center p-4'>
-        <Document
-          file={fileUrl}
-          onLoadSuccess={onDocumentLoadSuccess}
-          onLoadError={(error) =>
-            toast.error(`Error while loading PDF: ${error.message}`)
-          }
+      <div className='flex-1 overflow-auto'>
+        <div
+          className='min-h-full p-4'
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            minWidth: 'max-content',
+          }}
         >
-          <Page pageNumber={pageNumber} scale={scale} />
-        </Document>
+          <Document
+            file={fileUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            onLoadError={(error) =>
+              toast.error(`Error while loading PDF: ${error.message}`)
+            }
+          >
+            <Page pageNumber={pageNumber} scale={scale} />
+          </Document>
+        </div>
       </div>
     </div>
   );
