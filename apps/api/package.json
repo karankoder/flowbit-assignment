@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/multer": "^2.0.0",
-    "@types/node": "^22.18.1"
+    "@types/node": "^22.18.1",
+    "turbo": "^2.5.6"
   }
 }
